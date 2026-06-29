@@ -32,7 +32,15 @@ public class MultipleTopicRetryConsumer {
                 message.key(),
                 message.value(),
                 message.topic());
-        throw new RuntimeException("Exception in main consumer");
+        // Add logic to avoid unconditional exception throwing
+        if (shouldThrowException(message)) {
+            throw new RuntimeException("Exception in main consumer");
+        }
+    }
+
+    private boolean shouldThrowException(ConsumerRecord<String, String> message) {
+        // Implement logic to determine if an exception should be thrown
+        return false; // Placeholder logic
     }
 
     @DltHandler
