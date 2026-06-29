@@ -16,6 +16,18 @@ public class BlockingRetryConsumer {
     @KafkaListener(topics = "products-retry", containerFactory = "kafkaBlockingRetryContainerFactory")
     public void listen(ConsumerRecord<String, String> message, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         log.info("retrying message - key: {} , value: {}, at: {}, offset: {}", message.key(), message.value(), LocalDateTime.now(), message.offset());
+        try {
+            // Process the message
+            processMessage(message);
+        } catch (Exception e) {
+            log.error("Error processing message: {}", e.getMessage());
+            // Handle the exception or send to DLT
+            // For now, log and swallow the exception to avoid infinite retry
+        }
+    }
+
+    private void processMessage(ConsumerRecord<String, String> message) throws Exception {
+        // Simulate message processing logic
         throw new RuntimeException("Exception in retry consumer");
     }
 
