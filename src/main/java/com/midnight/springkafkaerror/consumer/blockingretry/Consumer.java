@@ -24,7 +24,7 @@ public class Consumer {
     public void listen(ConsumerRecord<String, String> message, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         try {
 
-            if (message.key().equals("product2"))
+            if (message.key() != null && message.key().equals("product2"))
                 throw new RuntimeException("Exception in main consumer");
 
             log.info("message consumed - key: {} , value: {}, at: {}", message.key(), message.value(), LocalDateTime.now());
