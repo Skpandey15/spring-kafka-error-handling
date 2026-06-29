@@ -31,6 +31,17 @@ public class SingleTopicRetryConsumer {
                 message.key(),
                 message.value(),
                 message.topic());
+        try {
+            // Simulate processing logic that might throw ClassCastException
+            processMessage(message);
+        } catch (ClassCastException e) {
+            log.error("ClassCastException encountered: {}", e.getMessage());
+            // Handle exception or rethrow if necessary
+        }
+    }
+
+    private void processMessage(ConsumerRecord<String, String> message) throws ClassCastException {
+        // Simulated processing logic
         throw new ClassCastException("Exception in main consumer");
     }
 
